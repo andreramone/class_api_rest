@@ -3,15 +3,15 @@ module.exports = {
     'modulos',
     [
       {
-        nome: 'Lógica de Programação',
+        nome: 'Módulo - Lógica de Programação',
         descricao: 'Aula de Lógica para estudantes iniciando em Programação',
       },
       {
-        nome: 'Aprenda Javascript',
+        nome: 'Módulo - Aprenda Javascript',
         descricao: 'Aula de Javascript para estudantes iniciando em Programação',
       },
       {
-        nome: 'Aprenda ReactJs',
+        nome: 'Módulo - Aprenda ReactJs',
         descricao: 'Aula de ReactJs para estudantes iniciando em Programação',
       },
 

@@ -6,9 +6,7 @@ class ModulosController {
     try {
       console.log(req.body);
       const novoModulo = await modulos.create(req.body);
-      const {
-        id, nome, descricao,
-      } = novoModulo;
+      const { id, nome, descricao } = novoModulo;
       return res.json({
         id,
         nome,
@@ -31,15 +29,15 @@ class ModulosController {
       const returnModulos = [];
       return Promise.all(
         queryModulos.map(async (modulo) => {
-          const aulasModulo = await aulas.findAll({ where: { id_modulo: modulo.id } });
+          const aulasModulo = await aulas.findAll({
+            where: { id_modulo: modulo.id },
+          });
           modulo.aulas = aulasModulo.length;
           returnModulos.push({
-
             id: modulo.id,
             nome: modulo.nome,
             descricao: modulo.descricao,
             aulas: aulasModulo.length,
-
           });
           return modulo;
         }),
@@ -54,9 +52,7 @@ class ModulosController {
     try {
       const novoModulo = await modulos.findByPk(req.params.id);
 
-      const {
-        id, nome, descricao,
-      } = novoModulo;
+      const { id, nome, descricao } = novoModulo;
       return res.json({
         id,
         nome,
@@ -70,19 +66,20 @@ class ModulosController {
   // Update
   async update(req, res) {
     try {
-      const novoModulo = await modulos.findByPk(req.body.id);
+      const modulo = await modulos.findByPk(req.body.id);
 
-      if (!novoModulo) {
+      if (!modulo) {
         return res.status(400).json({
           errors: ['Módulo não existe.'],
         });
       }
 
-      const novosDados = await modulos.update(req.body, { where: { id: req.body.id } });
-      console.log(novosDados);
-      const {
-        id, nome, descricao,
-      } = novoModulo;
+      await modulos.update(req.body, {
+        where: { id: req.body.id },
+      });
+
+      const novosDados = await modulos.findByPk(req.body.id);
+      const { id, nome, descricao } = novosDados;
       return res.json({
         id,
         nome,
