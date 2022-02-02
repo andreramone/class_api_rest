@@ -1,4 +1,5 @@
 import modulos from '../models/modulo';
+import aulas from '../models/aulas';
 
 class ModulosController {
   async store(req, res) {
@@ -15,7 +16,7 @@ class ModulosController {
       });
     } catch (e) {
       return res.status(400).json({
-        errors: e.errors.map((err) => err.message),
+        errors: e.message,
       });
     }
   }
@@ -23,10 +24,26 @@ class ModulosController {
   // Index
   async index(req, res) {
     try {
-      const novoModulo = await modulos.findAll({
+      const queryModulos = await modulos.findAll({
         attributes: ['id', 'nome', 'descricao'],
       });
-      return res.json(novoModulo);
+
+      const returnModulos = [];
+      return Promise.all(
+        queryModulos.map(async (modulo) => {
+          const aulasModulo = await aulas.findAll({ where: { id_modulo: modulo.id } });
+          modulo.aulas = aulasModulo.length;
+          returnModulos.push({
+
+            id: modulo.id,
+            nome: modulo.nome,
+            descricao: modulo.descricao,
+            aulas: aulasModulo.length,
+
+          });
+          return modulo;
+        }),
+      ).then(() => res.json(returnModulos));
     } catch (e) {
       return res.json(null);
     }
@@ -53,7 +70,6 @@ class ModulosController {
   // Update
   async update(req, res) {
     try {
-      console.log(req.body);
       const novoModulo = await modulos.findByPk(req.body.id);
 
       if (!novoModulo) {
@@ -62,10 +78,11 @@ class ModulosController {
         });
       }
 
-      const novosDados = await modulos.update(req.body);
+      const novosDados = await modulos.update(req.body, { where: { id: req.body.id } });
+      console.log(novosDados);
       const {
         id, nome, descricao,
-      } = novosDados;
+      } = novoModulo;
       return res.json({
         id,
         nome,
@@ -74,7 +91,7 @@ class ModulosController {
     } catch (e) {
       console.log(e.message);
       return res.status(400).json({
-        errors: e.errors.map((err) => err.message),
+        errors: e.message,
       });
     }
   }
@@ -90,11 +107,11 @@ class ModulosController {
         });
       }
 
-      await modulos.destroy();
+      await modulos.destroy({ where: { id: novoModulo.id } });
       return res.json(null);
     } catch (e) {
       return res.status(400).json({
-        errors: e.errors.map((err) => err.message),
+        errors: e.message,
       });
     }
   }

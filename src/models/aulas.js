@@ -24,9 +24,10 @@ export default class Aulas extends Model {
             },
           },
         },
-
         id_modulo: {
           type: Sequelize.INTEGER,
+          references: 'modulos',
+          referencesKey: 'id',
           validate: {
             notEmpty: {
               msg: 'Campo não pode ficar vazio',
@@ -41,7 +42,6 @@ export default class Aulas extends Model {
             },
           },
         },
-
         url: {
           type: Sequelize.STRING,
           validate: {
@@ -53,6 +53,8 @@ export default class Aulas extends Model {
       },
       {
         sequelize,
+        createdAt: false,
+        updatedAt: false,
       },
     );
 

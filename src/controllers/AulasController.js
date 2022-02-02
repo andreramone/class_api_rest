@@ -34,6 +34,20 @@ class AulasController {
     }
   }
 
+  // Show by modules
+  async showByModules(req, res) {
+    try {
+      const idModule = (req.params.id_modulo);
+      const aulasIndex = await Aulas.findAll({
+        attributes: ['id', 'nome', 'id_modulo', 'data', 'url'],
+        where: { id_modulo: idModule },
+      });
+      return res.json(aulasIndex);
+    } catch (e) {
+      return res.json(null);
+    }
+  }
+
   // Show
   async show(req, res) {
     try {
@@ -57,7 +71,6 @@ class AulasController {
   // Update
   async update(req, res) {
     try {
-      console.log(req.body);
       const aulasUpdate = await Aulas.findByPk(req.body.id);
 
       if (!aulasUpdate) {
@@ -66,10 +79,10 @@ class AulasController {
         });
       }
 
-      const novosDados = await Aulas.update(req.body);
+      await Aulas.update(req.body, { where: { id: aulasUpdate.id } });
       const {
         id, nome, id_modulo, data, url,
-      } = novosDados;
+      } = aulasUpdate;
       return res.json({
         id,
         nome,
@@ -92,11 +105,11 @@ class AulasController {
 
       if (!aulasDelete) {
         return res.status(400).json({
-          errors: ['Usuário não existe.'],
+          errors: ['Aula não existe.'],
         });
       }
 
-      await Aulas.destroy();
+      await Aulas.destroy({ where: { id: aulasDelete.id } });
       return res.json(null);
     } catch (e) {
       return res.status(400).json({

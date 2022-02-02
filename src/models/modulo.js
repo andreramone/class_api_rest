@@ -37,6 +37,8 @@ export default class Modulos extends Model {
       },
       {
         sequelize,
+        createdAt: false,
+        updatedAt: false,
       },
     );
 

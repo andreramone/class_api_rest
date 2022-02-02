@@ -15,7 +15,6 @@ module.exports = {
     id_modulo: {
       type: Sequelize.INTEGER,
       allowNull: false,
-      unique: true,
     },
     data: {
       type: Sequelize.DATE,
@@ -25,6 +24,8 @@ module.exports = {
       type: Sequelize.STRING,
       allowNull: false,
     },
+  }, {
+    timestamps: false,
   }),
 
   down: (queryInterface) => queryInterface.dropTable('aulas'),
