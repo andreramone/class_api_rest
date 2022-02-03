@@ -69,20 +69,20 @@ class AulasController {
   }
 
   // Update
+
   async update(req, res) {
     try {
       const aulasUpdate = await Aulas.findByPk(req.body.id);
-
       if (!aulasUpdate) {
         return res.status(400).json({
-          errors: ['Usuário não existe.'],
+          errors: ['Aula não existe.'],
         });
       }
 
       await Aulas.update(req.body, { where: { id: aulasUpdate.id } });
       const {
         id, nome, id_modulo, data, url,
-      } = aulasUpdate;
+      } = await Aulas.findByPk(req.body.id);
       return res.json({
         id,
         nome,
