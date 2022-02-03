@@ -7,7 +7,7 @@ Class API é um projeto de teste para a empresa VERZEL.
 Após o clone do repositório git do class API é necessário executar os seguintes comandos:
 
 ```bash
-docker run -p 3306:3306 --name class --detach -e MYSQL_ROOT_PASSWORD="classapi" -e MYSQL_ROOT_HOST=% -e MYSQL_DATABASE=classdb -d mysql/mysql-server:latest --lower_case_table_names=1 --init-connect='GRANT CREATE USER ON . TO 'root'@'%';FLUSH PRIVILEGES;
+docker run -p 3306:3306 --name class --detach -e MYSQL_ROOT_PASSWORD="classapi" -e MYSQL_ROOT_HOST=% -e MYSQL_DATABASE=classdb -d mysql/mysql-server:latest --lower_case_table_names=1 --init-connect='GRANT CREATE USER ON . TO 'root'@'%';FLUSH PRIVILEGES;'
 ```
 
 Se deseja alterar as configurações do database, modifique no arquivo:
