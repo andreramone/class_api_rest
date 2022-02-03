@@ -44,6 +44,12 @@ npm install
 ```bash
 npx sequelize-cli db:migrate
 ```
+
+## Opcional, execução das seeds:
+```bash
+npx sequelize-cli db:seed:all
+```
+
 ## Executar
 
 Para executarmos o projeto em modo de desenvolvimento podemos rodar o comando npm run dev no terminal dentro da pasta principal do projeto.
